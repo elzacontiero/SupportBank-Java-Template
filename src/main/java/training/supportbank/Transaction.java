@@ -1,15 +1,17 @@
 package training.supportbank;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-
+// // handle all the transactions and map every line of the CSV file.
+// one transaction object for one line.
 public class Transaction {
     private LocalDate date;
     private String from;
     private String to;
     private String narrative;
-    private float amount;
+    private BigDecimal amount;
 
-    public Transaction(LocalDate date, String from, String to, String narrative, float amount){
+    public Transaction(LocalDate date, String from, String to, String narrative, BigDecimal amount){
         this.date = date;
         this.from = from;
         this.to = to;
@@ -48,11 +50,12 @@ public class Transaction {
         this.narrative = narrative;
     }
 
-    public float getAmount() {
+    public BigDecimal getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }
