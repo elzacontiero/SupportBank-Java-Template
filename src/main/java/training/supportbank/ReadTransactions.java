@@ -1,6 +1,7 @@
 package training.supportbank;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ReadTransactions {
                     fields[1], // From
                     fields[2], // To
                     fields[3], // Narrative
-                    Float.parseFloat(fields[4])); // amount
+                    new BigDecimal(fields[4])); // amount
 
             // add current transaction into a listOfTransaction.
             listOfTransaction.add(t);
@@ -44,3 +45,4 @@ public class ReadTransactions {
         return listOfTransaction;
     }
 }
+
