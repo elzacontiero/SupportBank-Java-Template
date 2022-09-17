@@ -1,5 +1,7 @@
 package training.supportbank;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.List;
 import java.util.HashMap;
@@ -30,9 +32,19 @@ public class Main {
         // transactionsReader reads out csv file and save it in transactionList.
         try {
             transactionList = ReadTransactions.transactionsReader("Transactions2014.csv");
+            List<Transaction> transactionList2 = ReadTransactions.transactionsReader( "DodgyTransactions2015.csv");
+            transactionList.addAll(transactionList2); // add all elements of transactionList2 via method allAll into transactionList.
         }
-        catch(Exception e) {
-            System.out.println("Error: "+e.getMessage());
+        catch(NumberFormatException e) {
+            System.out.println("Error NumberFormatException: "+e.getMessage());
+            return;
+        }
+        catch(DateTimeParseException e) {
+            System.out.println("Error DateTimeParseException: " + e.getMessage());
+            return;
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("Error FileNotFoundException: " + e.getMessage());
             return;
         }
         HashMap<String,Account> allAccounts = returnAllAccounts(transactionList);

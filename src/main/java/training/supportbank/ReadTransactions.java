@@ -1,9 +1,11 @@
 package training.supportbank;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,8 @@ public class ReadTransactions {
     //  property formatter was created to be use many times inside the loop to parse dates.
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static List<Transaction> transactionsReader(String fileName) throws Exception {
+    public static List<Transaction> transactionsReader(String fileName)
+            throws DateTimeParseException, NumberFormatException, FileNotFoundException {
         System.out.println("Creating scanner for CSV file.");
         Scanner scan = new Scanner(new File(fileName));
         String line = scan.nextLine();
@@ -28,15 +31,32 @@ public class ReadTransactions {
             line = scan.nextLine();
             String[] fields = line.split(",");
 
-            // Magic to convert String date into a LocalDate object.
-            LocalDate date = LocalDate.parse(fields[0], formatter);
+            LocalDate date;
+            try {
+                // Magic to convert String date into a LocalDate object.
+                date = LocalDate.parse(fields[0], formatter);
+            }
+            catch(DateTimeParseException e) {
+                System.out.println("ERROR: Failed to convert " + fields[0] + ". Please verify contents of file " + fileName);
+                System.out.println("ERROR in CVS line: " + line);
+                throw e; // We refuse to continue: throw the error
+            }
+
+            BigDecimal amount;
+            try {
+                amount = new BigDecimal(fields[4]);
+            } catch(NumberFormatException e) {
+                System.out.println("ERROR: failed to convert " + fields[4] + ". Please verify contents of file " + fileName);
+                System.out.println("ERROR in CSV line: " + line);
+                throw e; // Refuse to continue: throw the error.
+            }
 
             // Variable t holds all the fields.
             Transaction t = new Transaction(date,
                     fields[1], // From
                     fields[2], // To
                     fields[3], // Narrative
-                    new BigDecimal(fields[4])); // amount
+                    amount); // amount
 
             listOfTransaction.add(t);
         }
