@@ -1,5 +1,4 @@
 package training.supportbank;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,8 +39,8 @@ public class Main {
         // transactionsReader reads out csv file and save it in transactionList.
         try {
             LOGGER.debug("Starting reading transactions");
-            transactionList = ReadTransactions.transactionsReader("Transactions2014.csv");
-            List<Transaction> transactionList2 = ReadTransactions.transactionsReader( "DodgyTransactions2015.csv");
+            transactionList = ReadTransactions.transactionsReaderCsv("Transactions2014.csv");
+            List<Transaction> transactionList2 = ReadTransactions.transactionsReaderCsv( "DodgyTransactions2015.csv");
             transactionList.addAll(transactionList2); // add all elements of transactionList2 via method allAll into transactionList.
             LOGGER.debug("All transactions read successfully.");
         }

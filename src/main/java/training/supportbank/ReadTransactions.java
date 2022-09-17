@@ -1,10 +1,12 @@
 package training.supportbank;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +23,19 @@ public class ReadTransactions {
     //  property formatter was created to be use many times inside the loop to parse dates.
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static List<Transaction> transactionsReader(String fileName)
+    public static List<Transaction> transactionReaderJson(String fileName) {
+        List<Transaction> results = new ArrayList<>();
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
+                LocalDate.parse(jsonElement.getAsString(), formatter)
+        );
+        Gson gson = gsonBuilder.create();
+        // How to read out the json file and insert into my results??
+        return results;
+    }
+
+    public static List<Transaction> transactionsReaderCsv(String fileName)
             throws DateTimeParseException, NumberFormatException, FileNotFoundException {
         System.out.println("Creating scanner for CSV file.");
         Scanner scan = new Scanner(new File(fileName));

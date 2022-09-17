@@ -5,15 +5,15 @@ import java.time.LocalDate;
 
 public class Transaction {
     private LocalDate date;
-    private String from;
-    private String to;
+    private String fromAccount;
+    private String toAccount;
     private String narrative;
     private BigDecimal amount;
 
     public Transaction(LocalDate date, String from, String to, String narrative, BigDecimal amount){
         this.date = date;
-        this.from = from;
-        this.to = to;
+        this.fromAccount = from;
+        this.toAccount = to;
         this.narrative = narrative;
         this.amount = amount;
     }
@@ -26,18 +26,18 @@ public class Transaction {
     }
 
     public String getFrom() {
-        return from;
+        return fromAccount;
     }
     public void setFrom(String from) {
-        this.from = from;
+        this.fromAccount = from;
     }
 
     public String getTo() {
-        return to;
+        return toAccount;
     }
 
     public void setTo(String to) {
-        this.to = to;
+        this.toAccount = to;
     }
 
     public String getNarrative() {
