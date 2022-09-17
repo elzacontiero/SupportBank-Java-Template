@@ -1,5 +1,8 @@
 package training.supportbank;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
@@ -12,6 +15,8 @@ import java.util.Scanner;
 
 // the responsibility of the class below is to read the CSV file and return a list of transactions.
 public class ReadTransactions {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     //  property formatter was created to be use many times inside the loop to parse dates.
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -37,8 +42,8 @@ public class ReadTransactions {
                 date = LocalDate.parse(fields[0], formatter);
             }
             catch(DateTimeParseException e) {
-                System.out.println("ERROR: Failed to convert " + fields[0] + ". Please verify contents of file " + fileName);
-                System.out.println("ERROR in CVS line: " + line);
+                LOGGER.error("Failed to convert " + fields[0] + ". Please verify contents of file " + fileName);
+                LOGGER.error("ERROR in CVS line: " + line);
                 throw e; // We refuse to continue: throw the error
             }
 
@@ -46,8 +51,8 @@ public class ReadTransactions {
             try {
                 amount = new BigDecimal(fields[4]);
             } catch(NumberFormatException e) {
-                System.out.println("ERROR: failed to convert " + fields[4] + ". Please verify contents of file " + fileName);
-                System.out.println("ERROR in CSV line: " + line);
+                LOGGER.error("ERROR: failed to convert " + fields[4] + ". Please verify contents of file " + fileName);
+                LOGGER.error("ERROR in CSV line: " + line);
                 throw e; // Refuse to continue: throw the error.
             }
 

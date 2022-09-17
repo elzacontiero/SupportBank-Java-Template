@@ -1,4 +1,8 @@
 package training.supportbank;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeParseException;
@@ -7,6 +11,8 @@ import java.util.List;
 import java.util.HashMap;
 
 public class Main {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private static HashMap<String,Account> returnAllAccounts(List<Transaction> transactionList) {
 
         HashMap<String,Account> allAccounts = new HashMap<>();
@@ -28,23 +34,30 @@ public class Main {
     public static void main(String args[]) {
         System.out.println("Welcome to Support Bank");
 
+        LOGGER.info( "Program Support Bank Started");
+
         List<Transaction> transactionList;
         // transactionsReader reads out csv file and save it in transactionList.
         try {
+            LOGGER.debug("Starting reading transactions");
             transactionList = ReadTransactions.transactionsReader("Transactions2014.csv");
             List<Transaction> transactionList2 = ReadTransactions.transactionsReader( "DodgyTransactions2015.csv");
             transactionList.addAll(transactionList2); // add all elements of transactionList2 via method allAll into transactionList.
+            LOGGER.debug("All transactions read successfully.");
         }
         catch(NumberFormatException e) {
-            System.out.println("Error NumberFormatException: "+e.getMessage());
+            System.out.println("Fatal error. Check logs for details, please.");
+            LOGGER.fatal("Error NumberFormatException: "+e.getMessage());
             return;
         }
         catch(DateTimeParseException e) {
-            System.out.println("Error DateTimeParseException: " + e.getMessage());
+            System.out.println("Fatal error. Check logs for details, please.");
+            LOGGER.fatal("Error DateTimeParseException: " + e.getMessage());
             return;
         }
         catch(FileNotFoundException e) {
-            System.out.println("Error FileNotFoundException: " + e.getMessage());
+            System.out.println("Fatal error. Check logs for details, please.");
+            LOGGER.fatal("Error FileNotFoundException: " + e.getMessage());
             return;
         }
         HashMap<String,Account> allAccounts = returnAllAccounts(transactionList);
