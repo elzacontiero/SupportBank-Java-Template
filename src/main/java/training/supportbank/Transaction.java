@@ -2,8 +2,7 @@ package training.supportbank;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-// // handle all the transactions and map every line of the CSV file.
-// one transaction object for one line.
+
 public class Transaction {
     private LocalDate date;
     private String from;
