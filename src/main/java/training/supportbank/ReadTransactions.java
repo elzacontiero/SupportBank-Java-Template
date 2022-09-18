@@ -22,16 +22,30 @@ public class ReadTransactions {
 
     //  property formatter was created to be use many times inside the loop to parse dates.
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    static DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    // method below reads a file name containing Json and returns a List of Transactions.
     public static List<Transaction> transactionReaderJson(String fileName) {
         List<Transaction> results = new ArrayList<>();
-
+        // Create gsonBuilder and gson objects that can handle LocalDate.
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
-                LocalDate.parse(jsonElement.getAsString(), formatter)
+                LocalDate.parse(jsonElement.getAsString(), formatter2)
         );
         Gson gson = gsonBuilder.create();
-        // How to read out the json file and insert into my results??
+        // Create a file reader to feed gson objects with.
+        FileReader reader = null;
+        try {
+            reader = new FileReader(new File(fileName));
+        } catch (FileNotFoundException e) {
+            LOGGER.error(" error when trying to open file " + fileName + ":" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        // parsing Json to Transactions array.
+        Transaction[] transactions = gson.fromJson(reader, Transaction[].class);
+        for(Transaction t: transactions) { // for each element t of transactions add to results
+            results.add(t);
+        }
         return results;
     }
 

@@ -40,9 +40,15 @@ public class Main {
         try {
             LOGGER.debug("Starting reading transactions");
             transactionList = ReadTransactions.transactionsReaderCsv("Transactions2014.csv");
-            List<Transaction> transactionList2 = ReadTransactions.transactionsReaderCsv( "DodgyTransactions2015.csv");
-            transactionList.addAll(transactionList2); // add all elements of transactionList2 via method allAll into transactionList.
+
+            // Commenting out these dodgy transactions.
+//          List<Transaction> transactionList2 = ReadTransactions.transactionsReaderCsv( "DodgyTransactions2015.csv");
+//          transactionList.addAll(transactionList2); // add all elements of transactionList2 via method allAll into transactionList.
+
+            List<Transaction> transactionList3 = ReadTransactions.transactionReaderJson("Transactions2013.json");
+            transactionList.addAll(transactionList3);
             LOGGER.debug("All transactions read successfully.");
+
         }
         catch(NumberFormatException e) {
             System.out.println("Fatal error. Check logs for details, please.");
