@@ -50,7 +50,8 @@ To better process the transactions, we need to load all transactions from CSV or
 
 The `main` method has the following steps:
 
-1. Read Transaction files from disk and put them into `List<Transaction>`
+1. Read Transaction files from disk and put them into `List<Transaction>`:
+   1. File formats can be CSV or Json.
 2. Create all empty initial accounts for each user in transactions. 
 3. Distribute each transaction to their respective accounts. If a transaction is between Jamie and Alice, that transaction should go to Jamie's account and also to Alice's. This would update their balances and include this transaction on both accounts. 
 4. Wait for user input. Command `List All` should list all accounts with their balances whereas `List Alice` should show the balance for user-Account "Alice" with the list of her transactions. It is possible to solve this by removing `"List "` from the command, as it is redundant, which leaves either `All` or an user name. 
